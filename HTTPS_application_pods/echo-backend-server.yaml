@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echo-backend-server
+  labels:
+    app: echo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: echo
+      tier: server
+  template:
+    metadata:
+      labels:
+        app: echo
+        tier: server
+    spec:
+      containers:
+      - name: http-echo
+        image: hashicorp/http-echo
+        args: ["-text=from-server"]
+        ports:
+        - containerPort: 5678
+      nodeSelector:
+        kubernetes.io/hostname: user
+      terminationGracePeriodSeconds: 0

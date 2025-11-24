@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echo-backend-optiplex
+  labels:
+    app: echo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: echo
+      tier: optiplex
+  template:
+    metadata:
+      labels:
+        app: echo
+        tier: optiplex
+    spec:
+      containers:
+      - name: http-echo
+        image: hashicorp/http-echo
+        args: ["-text=from-optiplex"]
+        ports:
+        - containerPort: 5678
+      nodeSelector:
+        kubernetes.io/hostname: user-optiplex-790
+      terminationGracePeriodSeconds: 0
